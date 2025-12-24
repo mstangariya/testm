@@ -1,51 +1,818 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Meri Pehli Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>PTA - Executive Committee</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- React & Babel CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f5f5f5;
+      background: #eef2f6;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      color: #1f2937;
     }
-    header {
-      background: #24292e;
-      color: white;
-      padding: 15px;
-      text-align: center;
+
+    /* GOVERNMENT / CBSE STYLE SIDEBAR */
+    .sidebar {
+      background: linear-gradient(180deg, #0a2540 0%, #133b63 100%);
+      min-height: 100vh;
+      padding: 1.5rem 0.75rem;
+      box-shadow: 3px 0 12px rgba(0,0,0,0.2);
     }
-    main {
-      padding: 20px;
+
+    .sidebar h5 {
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
     }
+
+    .sidebar button {
+      background: transparent;
+      border: none;
+      border-left: 4px solid transparent;
+      color: #e5e7eb;
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: left;
+      transition: background 0.2s ease, border-left 0.2s ease;
+    }
+
+    .sidebar button:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    .sidebar button.active {
+      background: rgba(255,255,255,0.15) !important;
+      border-left: 4px solid #facc15;
+      color: #ffffff !important;
+      font-weight: 600;
+    }
+
+    /* HEADER / CONTENT */
+    h3 {
+      font-weight: 600;
+      border-bottom: 2px solid #1d4ed8;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
     .card {
-      background: white;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      box-shadow: none;
+    }
+
+    .card-header {
+      background: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+      border-radius: 6px 6px 0 0;
+    }
+
+    table {
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 600;
+      width: 40%;
+    }
+
+    @media (max-width: 768px) {
+      h3 { font-size: 1.15rem; }
+      table { font-size: 0.9rem; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>👋 Namaste!</h1>
-  <p>Yeh meri GitHub par bani web page hai</p>
-</header>
+<div id="root"></div>
 
-<main>
-  <div class="card">
-    <h2>About Me</h2>
-    <p>Main GitHub par apni pehli website bana raha hoon.</p>
-  </div>
+<script type="text/babel">
+/***********************
+ * DATA & VALIDATION
+ ************************/
+const headings = [
+  "Chairman (Principal)",
+  "Vice-Chairman (Parent)",
+  "Vice-Chairman (Teacher)",
+  "Secretary (Parent)",
+  "Jt. Secretary (Teacher)",
+  "Jt. Secretary (Parent)",
+  "Treasurer (Teacher)",
+  "Member (Parent)",
+  "Member (Parent)",
+  "Member (Parent)",
+  "Member (Parent)",
+  "Member (Parent)",
+  "Member (Parent)",
+  "Member (Parent)",
+  "Member (Teacher)",
+  "Member (Teacher)",
+  "Member (Teacher)",
+  "Member (Teacher)",
+  "Member (Teacher)",
+  "Member (Teacher)",
+];
 
-  <div class="card">
-    <h2>Contact</h2>
-    <p>Email: example@gmail.com</p>
-  </div>
-</main>
+const data = {
+  "2025-26": [
+    "Mr. Vinay Chaudhary",
+    "Ms. Seema",
+    "Ms. Shakti Singh",
+    "Mr. Paras Jha",
+    "Ms. Seema Kandpal",
+    "Mr. Sunil Kumar Rai",
+    "Mr. Praveen Kumar Jha",
+    "Ms. Chandni",
+    "Mr. Badley Singh",
+    "Mr. Teetu Sharma",
+    "Ms. Bhawna Mehra",
+    "Mr. Chander Prakash",
+    "Mr. Praveen Kumar",
+    "Ms. Radha Rani",
+    "Ms. Laxmi Pandey",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Mr. Kamlesh Jha",
+    "-",
+    "-",
+  ],
 
+"2024-25": [
+    "Mr. Vinay Chaudhary",
+    "Mr. Gautam Samanta",
+    "Ms. Shakti Singh",
+    "Mr. Ashok Pandey",
+    "Ms. Seema Kandpal",
+    "Mr. Paras Jha",
+    "Mr. Praveen Kumar Jha",
+    "Ms. Chandni",
+    "Mr. Badley Singh",
+    "Mr. Teetu Sharma",
+    "Ms. Bhawna Mehra",
+    "Mr. Chander Prakash",
+    "Mr. Praveen Kumar",
+    "Ms. Radha Rani",
+    "Ms. Laxmi Pandey",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Mr. Kamlesh Jha",
+    "-",
+    "-",
+],
+
+"2023-24": [
+    "Mr. Vinay Chaudhary",
+    "Mr. Gautam Samanta",
+    "Ms. Shakti Singh",
+    "Mr. Ashok Pandey",
+    "Ms. Seema Kandpal",
+    "Mr. Paras Jha",
+    "Mr. Praveen Kumar Jha",
+    "Ms. Chandni",
+    "Mr. Badley Singh",
+    "Mr. Teetu Sharma",
+    "Ms. Meenu",
+    "Mr. Chander Prakash",
+    "Mr. Rahul Kumar",
+    "Ms. Radha Rani",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Mr. Kamlesh Jha",
+    "-",
+    "-"
+  ],
+
+  "2022-23": [
+    "Mr. Vinay Chaudhary",
+    "Mr. Gautam Samanta",
+    "Ms. Shakti Singh",
+    "Ms. Lucky Bhardwaj",
+    "Ms. Seema Kandpal",
+    "Mr. GPS Verma",
+    "Mr. Prem Kumar",
+    "Mr. Paras Jha",
+    "Mr. Smritikona Sabui",
+    "Mr. Samar Chaudhary",
+    "Ms. Ravinder Kumar",
+    "Mr. Rahul Chaudhary",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Yashoda Rani",
+    "Mr. Kamlesh Jha",
+    "Ms. Ekta"
+  ],
+
+  "2021-22": [
+    "Mr. Vinay Chaudhary",
+    "Mr. Sunil Rai",
+    "Ms. Shyamlata Sharma",
+    "Mr. Gautam Samanta",
+    "Ms. Seema Kandpal",
+    "Mr. GPS Verma",
+    "Mr. Prem Kumar",
+    "Mr. Sushanto Peter",
+    "Mr. Badley Singh",
+    "Mr. Teetu Sharma",
+    "Ms. Megha Bisht",
+    "Mr. Chander Prakash",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Yashoda Rani",
+    "Mr. Kamlesh Jha",
+    "Ms. Shakti Singh"
+  ],
+
+  "2020-21": [
+    "Mr. Vinay Chaudhary",
+    "Mr. Sunil Rai",
+    "Ms. Shyamlata Sharma",
+    "Mr. Gautam Samanta",
+    "Ms. Seema Kandpal",
+    "Mr. GPS Verma",
+    "Mr. Prem Kumar",
+    "Mr. Sushanto Peter",
+    "Mr. Badley Singh",
+    "Mr. Teetu Sharma",
+    "Ms. Megha Bisht",
+    "Mr. Chander Prakash",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Yashoda Rani",
+    "Mr. Kamlesh Jha",
+    "Ms. Shakti Singh"
+  ],
+
+  "2019-20": [
+    "Mr. Vinay Chaudhary",
+    "Mr. Sunil Rai",
+    "Ms. Seema Sati Kandpal",
+    "Mr. Gautam Samanta",
+    "Ms. Shyamlata Sharma",
+    "Ms. Bharti",
+    "Mr. Prem Kumar",
+    "Mr. Anil Sharma",
+    "Ms. Sunita Sharma",
+    "Mr. Teetu Sharma",
+    "Ms. Megha Bisht",
+    "Mr. Chander Prakash",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Yashoda Rani",
+    "Mr. Kamlesh Jha",
+    "Ms. Shakti Singh"
+  ],
+
+  "2018-19": [
+    "Mr. Vinay Chaudhary",
+    "Mr. Sunil Rai",
+    "Ms. Seema Sati Kandpal",
+    "Mr. Paras Jha",
+    "Ms. Shyamlata Sharma",
+    "Ms. Bharti",
+    "Mr. Prem Kumar",
+    "Mr. Anil Sharma",
+    "Ms. Sunita Sharma",
+    "Mr. Teetu Sharma",
+    "Ms. Megha Bisht",
+    "Mr. Chander Prakash",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Yashoda Rani",
+    "Mr. Kamlesh Jha",
+    "Ms. Shakti Singh"
+  ],
+
+  "2017-18": [
+    "Ms. Seema Singh",
+    "Mr. Sunil Rai",
+    "Ms. Renu Sharma",
+    "Mr. Paras Jha",
+    "Ms. Shyamlata Sharma",
+    "Ms. Santoshi Sharma",
+    "Mr. Prem Kumar",
+    "Mr. Anil Sharma",
+    "Ms. Sunita Sharma",
+    "Ms. Hema Sharma",
+    "Mr. Suman Roy",
+    "Mr. Chander Prakash",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Seema Sati Kandpal",
+    "Ms. Pushpa Chaudhary",
+    "Ms. Usha Rani"
+  ],
+
+  "2016-17": [
+    "Ms. Seema Singh",
+    "Mr. Sunil Rai",
+    "Ms. Renu Sharma",
+    "Mr. Paras Jha",
+    "Ms. Shyamlata Sharma",
+    "Ms. Santoshi Sharma",
+    "Mr. Prem Kumar",
+    "Mr. Anil Sharma",
+    "Ms. Sunita Sharma",
+    "Ms. Hema Sharma",
+    "Mr. Suman Roy",
+    "Mr. Chander Prakash",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Seema Sati Kandpal",
+    "Ms. Pushpa Chaudhary",
+    "Ms. Usha Rani"
+  ],
+  
+  "2015-16": [
+    "Ms. Seema Rawat",
+    "Mr. Sunil Rai",
+    "Ms. Renu Sharma",
+    "Mr. Paras Jha",
+    "Ms. Shyamlata Sharma",
+    "Ms. Santoshi Sharma",
+    "Mr. Prem Kumar",
+    "Mr. Anil Sharma",
+    "Mr. Ashok Pandey",
+    "Ms. Rekha Sharma",
+    "Mr. Madan Lal Sagar",
+    "Mr. Chander Prakash",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Seema Sati Kandpal",
+    "Ms. Pushpa Chaudhary",
+    "Ms. Usha Rani"
+  ],
+
+  "2014-15": [
+    "Ms. Seema Rawat",
+    "Mr. Sunil Rai",
+    "Ms. Bharti Tariyal",
+    "Mr. Paras Jha",
+    "Ms. Shyamlata Sharma",
+    "Ms. Santoshi Sharma",
+    "Mr. Prem Kumar",
+    "Mr. Anil Sharma",
+    "Mr. Ashok Pandey",
+    "Ms. Rekha Sharma",
+    "Mr. Madan Lal Sagar",
+    "Mr. Chander Prakash",
+    "-",
+    "-",
+    "Ms. Savita Vohra",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Seema Sati Kandpal",
+    "Ms. Pushpa Chaudhary",
+    "Ms. Usha Rani"
+  ],
+
+  "2013-14": [
+    "Ms. Seema Rawat",
+    "Mr. Rakesh Sharma",
+    "Ms. Shyamlata Sharma",
+    "Mr. A.P. Dhasmana",
+    "Ms. Savita Vohra",
+    "Mr. Mohan C. Fulara",
+    "Ms. Bharti Tariyal",
+    "Mr. Anil Sharma",
+    "Mr. Vivek Jha",
+    "Mr. Govind Singh Bisht",
+    "Mr. Gopal Singh Rawat",
+    "Mr. Ghananand Sharma",
+    "-",
+    "-",
+    "Mr. Prem Kumar",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Seema Sati",
+    "Ms. Pushpa Chaudhary",
+    "Ms. Usha Rani"
+  ],
+
+  "2012-13": [
+    "Ms. Seema Rawat",
+    "Mr. Rakesh Sharma",
+    "Ms. Shyamlata Sharma",
+    "Mr. A.P. Dhasmana",
+    "Ms. Savita Vohra",
+    "Mr. Mohan C. Fulara",
+    "Ms. Bharti Tariyal",
+    "Mr. Anil Sharma",
+    "Mr. Vivek Jha",
+    "Mr. Govind Singh Bisht",
+    "Mr. Gopal Singh Rawat",
+    "Mr. Ghananand Sharma",
+    "-",
+    "-",
+    "Mr. Prem Kumar",
+    "Ms. Sabita Purkait",
+    "Ms. Kavita Lohani",
+    "Ms. Seema Sati",
+    "Ms. Pushpa Chaudhary",
+    "Ms. Usha Rani"
+  ],
+
+  "2011-12": [
+    "Ms. Seema Rawat",
+    "Mr. Mohan Chand Fulara",
+    "-",
+    "Mr. A.P. Dhasmana",
+    "Ms. Savita Vohra",
+    "-",
+    "Ms. Bharti Tariyal",
+    "Mr. Ram Avtar Gupta",
+    "Mr. Vivek Jha",
+    "Mr. Uday Singh Negi",
+    "Mr. Shoorvir Singh Negi",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+  ],
+
+  "2010-11": [
+    "Ms. Seema Rawat",
+    "Mr. Suresh Sharma",
+    "-",
+    "Mr. A.P. Dhasmana",
+    "Ms. Savita Vohra",
+    "-",
+    "Ms. Bharti Tariyal",
+    "Mr. Anil Bhati",
+    "Mr. Upender Kumar",
+    "Mr. Chander Gupt Sharma",
+    "Mr. Laxman Singh Bisht",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+  ],
+
+  "2009-10": [
+    "Ms. Seema Rawat",
+    "Mr. Suresh Sharma",
+    "-",
+    "Mr. A.P. Dhasmana",
+    "Ms. Savita Vohra",
+    "-",
+    "Ms. Bharti Tariyal",
+    "Mr. Anil Bhati",
+    "Mr. Upender Kumar",
+    "Mr. Chander Gupt Sharma",
+    "Mr. Laxman Singh Bisht",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+  ],
+
+  "2008-09": [
+    "Ms. Seema Rawat",
+    "Mr. Suresh Sharma",
+    "-",
+    "Mr. A.P. Dhasmana",
+    "Mr. Ravinder Jha",
+    "-",
+    "Ms. Bharti Tariyal",
+    "Mr. Anil Bhati",
+    "Mr. Upender Kumar",
+    "Mr. Chandra Gupt Sharma",
+    "Mr. Laxman Singh Bisht",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+  ],
+
+  "2007-08": [
+    "Mr. Satyavir Singh",
+    "Mr. Anil Bhati",
+    "-",
+    "Mr. Veer Mahender Pratap",
+    "Ms. Seema Rawat",
+    "-",
+    "Ms. Bharti Tariyal",
+    "Mr. Suresh Kumar Sharma",
+    "Mr. Guman Singh Bisht",
+    "Mr. Vinod Uniyal",
+    "Mr. Mal Singh Rawat",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+  ],
+
+  "2006-07": [
+    "Mr. Satyavir Singh",
+    "Mr. Anil Bhati",
+    "-",
+    "Mr. Veer Mahender Pratap",
+    "Ms. Seema Rawat",
+    "-",
+    "Ms. Bharti Tariyal",
+    "Mr. Suresh Kumar Sharma",
+    "Mr. Guman Singh Bisht",
+    "Mr. Vinod Uniyal",
+    "Mr. Mal Singh Rawat",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+  ],
+
+  "2005-06": [
+    "Mr. Satyavir Singh",
+    "Mr. Prem Pal Chauhan",
+    "-",
+    "Mr. Veer Mahender Pratap",
+    "Ms. Seema Rawat",
+    "-",
+    "Ms. Bharti Tariyal",
+    "Mr. Surendra Singh",
+    "Mr. Gopal Singh Bisht",
+    "Mr. Roshan Singh",
+    "Mr. Chander Gupt Sharma",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+  ],
+
+  "2004-05": [
+    "Mr. Satyavir Singh",
+    "Mr. Ashok Kumar Sharma",
+    "-",
+    "Mr. Veer Mahender Pratap",
+    "Ms. Seema Rawat",
+    "-",
+    "Ms. Bharti Tariyal",
+    "Mr. Heera Singh Bhandari",
+    "Mr. Bhairav Thakur",
+    "Mr. Virender Singh Rawat",
+    "Mr. Satish Kumar Sharma",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+  ]
+};
+
+const years = [
+  "2025-26","2024-25","2023-24","2022-23","2021-22","2020-21",
+  "2019-20","2018-19","2017-18","2016-17","2015-16","2014-15",
+  "2013-14","2012-13","2011-12","2010-11","2009-10","2008-09",
+  "2007-08","2006-07","2005-06","2004-05",
+];
+
+function validateData() {
+  Object.entries(data).forEach(([year, members]) => {
+    if (members.length !== headings.length) {
+      console.warn(`Validation warning: ${year} has ${members.length} entries (expected ${headings.length})`);
+    }
+    members.forEach((m, i) => {
+      if (typeof m !== "string") {
+        console.warn(`Invalid value in ${year} at ${headings[i]}`);
+      }
+    });
+  });
+}
+validateData();
+
+/***********************
+ * SEARCH + TESTS
+ ************************/
+function searchMembers(query) {
+  const results = [];
+  Object.entries(data).forEach(([year, members]) => {
+    members.forEach((name, i) => {
+      if (name !== "-" && name.toLowerCase().includes(query.toLowerCase())) {
+        results.push({ year, designation: headings[i], name });
+      }
+    });
+  });
+  return results;
+}
+
+// Unit tests
+console.assert(searchMembers("seema").length > 0, "Search test failed: Seema not found");
+console.assert(searchMembers("xyz").length === 0, "Search test failed: Invalid match");
+
+/***********************
+ * APP COMPONENT
+ ************************/
+function App() {
+  const [selectedYear, setSelectedYear] = React.useState("2025-26");
+  const [search, setSearch] = React.useState("");
+
+  const results = search ? searchMembers(search) : [];
+
+  return (
+    <div className="container-fluid">
+      <div className="d-md-none mb-3">
+        <button
+          className="btn btn-primary w-100"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#yearMenu"
+          aria-label="Open academic year menu"
+        >
+          Select Academic Year
+        </button>
+      </div>
+
+      <div className="row">
+        {/* Desktop Sidebar */}
+        <nav className="col-md-3 col-lg-2 sidebar text-white p-3 d-none d-md-block" role="navigation" aria-label="Academic years">
+          <h5 className="text-center mb-3">Academic Years</h5>
+          {years.map(y => (
+            <button
+              key={y}
+              className={`btn btn-primary w-100 text-start mb-1 ${selectedYear === y ? 'active' : ''}`}
+              onClick={() => { setSelectedYear(y); setSearch(''); }}
+              aria-pressed={selectedYear === y}
+              aria-label={`View committee for year ${y}`}
+            >
+              {y}
+            </button>
+          ))}
+        </nav>
+
+        {/* Mobile Offcanvas */}
+        <div className="offcanvas offcanvas-start" tabIndex="-1" id="yearMenu" role="navigation" aria-label="Academic years">
+          <div className="offcanvas-header">
+            <h5 className="offcanvas-title">Academic Years</h5>
+            <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div className="offcanvas-body">
+            {years.map(y => (
+              <button
+                key={y}
+                className={`btn btn-outline-primary w-100 text-start mb-1 ${selectedYear === y ? 'active' : ''}`}
+                onClick={() => { setSelectedYear(y); setSearch(''); }}
+                data-bs-dismiss="offcanvas"
+                aria-pressed={selectedYear === y}
+              >
+                {y}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <main className="col-md-9 col-lg-10 p-4" role="main">
+          <h3 className="mb-3">PTA - Executive Committee</h3>
+
+          <input
+            type="text"
+            className="form-control mb-4"
+            placeholder="Search member name across all years"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            aria-label="Search committee members"
+            role="searchbox"
+          />
+
+          {search ? (
+            <div className="card" aria-live="polite">
+              <div className="card-header bg-secondary text-white">Search Results</div>
+              <div className="card-body">
+                {results.length === 0 ? (
+                  <p>No results found.</p>
+                ) : (
+                  <table className="table table-bordered" role="table" aria-label="Search results">
+                    <thead className="table-light">
+                      <tr>
+                        <th scope="col">Year</th>
+                        <th scope="col">Designation</th>
+                        <th scope="col">Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {results.map((r, i) => (
+                        <tr key={i}>
+                          <td>{r.year}</td>
+                          <td>{r.designation}</td>
+                          <td>{r.name}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="card">
+              <div className="card-header bg-success text-white">
+                Committee Members – {selectedYear}
+              </div>
+              <div className="card-body">
+                {!data[selectedYear] ? (
+                  <p>Data not available for this year.</p>
+                ) : (
+                  <table className="table table-striped table-bordered" role="table" aria-label={`Committee members for ${selectedYear}`}>
+                    <tbody>
+                      {headings.map((h, i) => (
+                        <tr key={i}>
+                          <th scope="row" style={{ width: '40%' }}>{h}</th>
+                          <td>{data[selectedYear][i]}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          )}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
